@@ -12,7 +12,9 @@ def test_resolution_settings():
     print("Testing Resolution Settings...")
     
     # 1. Test SettingsManager
-    sm = SettingsManager()
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    config_dir = os.path.join(root_dir, "config")
+    sm = SettingsManager(config_dir)
     original_res = sm.get_resolution()
     print(f"Original Resolution: {original_res}")
     

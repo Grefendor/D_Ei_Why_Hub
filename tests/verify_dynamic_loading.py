@@ -39,7 +39,8 @@ def test_registries():
         print("PASS: Widget discovery")
 
     print("\nTesting SettingsManager...")
-    settings_manager = SettingsManager(root_dir)
+    config_dir = os.path.join(root_dir, "config")
+    settings_manager = SettingsManager(config_dir)
     
     # Test default
     if not settings_manager.get_enabled_apps():
