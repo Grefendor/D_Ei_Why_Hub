@@ -74,5 +74,10 @@
     "location_not_found": "Lagerort nicht gefunden.",
     "new_location": "Neuer Lagerort",
     "location_name": "Name:",
-    "people_management": "Personen verwalten"
+    "people_management": "Personen verwalten",
+    "resolution": "Auflösung",
+    "width": "Breite",
+    "height": "Höhe",
+    "restart_required": "Neustart erforderlich, damit Änderungen wirksam werden.",
+    "info": "Info"
 }

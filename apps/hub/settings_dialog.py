@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, 
-                             QPushButton, QTabWidget, QWidget, QLabel, QCheckBox, QGridLayout, QFrame, QComboBox)
+                             QPushButton, QTabWidget, QWidget, QLabel, QCheckBox, QGridLayout, QFrame, QComboBox, QSpinBox)
 from PySide6.QtCore import Qt, QMimeData, Signal, Signal
 
 # ... (imports)
@@ -456,6 +456,62 @@ class SettingsDialog(QDialog):
         lang_layout.addStretch()
         
         general_layout.addLayout(lang_layout)
+
+        # Resolution
+        res_layout = QVBoxLayout()
+        res_header = QHBoxLayout()
+        res_header.addWidget(QLabel(f"{self.language_manager.translate('resolution')}:"))
+        
+        self.res_combo = QComboBox()
+        self.res_combo.addItems(["Auto", "1280x720", "1920x1080", "2560x1440", "3840x2160", "Custom"])
+        self.res_combo.currentTextChanged.connect(self.toggle_custom_resolution)
+        res_header.addWidget(self.res_combo)
+        res_header.addStretch()
+        res_layout.addLayout(res_header)
+        
+        # Custom Resolution Inputs
+        self.custom_res_widget = QWidget()
+        custom_res_layout = QHBoxLayout(self.custom_res_widget)
+        custom_res_layout.setContentsMargins(0, 0, 0, 0)
+        
+        custom_res_layout.addWidget(QLabel(self.language_manager.translate("width")))
+        self.res_width = QSpinBox()
+        self.res_width.setRange(800, 7680)
+        self.res_width.setValue(1920)
+        custom_res_layout.addWidget(self.res_width)
+        
+        custom_res_layout.addWidget(QLabel(self.language_manager.translate("height")))
+        self.res_height = QSpinBox()
+        self.res_height.setRange(600, 4320)
+        self.res_height.setValue(1080)
+        custom_res_layout.addWidget(self.res_height)
+        
+        custom_res_layout.addStretch()
+        res_layout.addWidget(self.custom_res_widget)
+        
+        general_layout.addLayout(res_layout)
+        
+        # Load Resolution Setting
+        current_res = self.settings_manager.get_resolution()
+        if current_res in ["auto", "1280x720", "1920x1080", "2560x1440", "3840x2160"]:
+            # Match case-insensitive for "auto" but combo has "Auto"
+            index = self.res_combo.findText(current_res, Qt.MatchFlag.MatchFixedString)
+            if index >= 0:
+                self.res_combo.setCurrentIndex(index)
+            elif current_res == "auto":
+                 self.res_combo.setCurrentText("Auto")
+        else:
+            # Custom
+            self.res_combo.setCurrentText("Custom")
+            try:
+                w, h = map(int, current_res.split('x'))
+                self.res_width.setValue(w)
+                self.res_height.setValue(h)
+            except ValueError:
+                pass # Keep defaults
+        
+        self.toggle_custom_resolution(self.res_combo.currentText())
+
         
         # Reset Data Button
         reset_layout = QHBoxLayout()
@@ -504,6 +560,23 @@ class SettingsDialog(QDialog):
         self.settings_manager.set_language(selected_lang)
         self.language_manager.load_language(selected_lang)
 
+        # Resolution
+        selected_res = self.res_combo.currentText()
+        new_res_setting = "auto"
+        
+        if selected_res == "Custom":
+            new_res_setting = f"{self.res_width.value()}x{self.res_height.value()}"
+        elif selected_res == "Auto":
+            new_res_setting = "auto"
+        else:
+            new_res_setting = selected_res
+            
+        old_res_setting = self.settings_manager.get_resolution()
+        if new_res_setting != old_res_setting:
+            self.settings_manager.set_resolution(new_res_setting)
+            QMessageBox.information(self, self.language_manager.translate("info"), 
+                                  self.language_manager.translate("restart_required"))
+
         # Apps
         positions = self.grid_editor.get_positions()
         self.settings_manager.set_app_positions(positions)
@@ -551,6 +624,10 @@ class SettingsDialog(QDialog):
                                           self.language_manager.translate("data_reset_success"))
                     self.data_reset.emit()
                     # Optional: Close app or restart? For now just notify.
+
+    def toggle_custom_resolution(self, text):
+        """Shows or hides custom resolution inputs based on selection."""
+        self.custom_res_widget.setVisible(text == "Custom")
 
     # Handlers for Grid Editor
     def handle_drop(self, row, col, app_id):

@@ -29,7 +29,8 @@ class SettingsManager:
         "app_positions": {}, # {"app_id": {"row": 0, "col": 0}}
         "enabled_widgets": [],
         "widget_order": [],
-        "widget_positions": {} # {index: "widget_id"}
+        "widget_positions": {}, # {index: "widget_id"}
+        "resolution": "auto" # "auto" or "WxH" (e.g., "1920x1080")
     }
 
     def __init__(self, settings_dir: str = "."):
@@ -157,4 +158,13 @@ class SettingsManager:
     def set_language(self, language: str):
         """Updates the language and saves settings."""
         self.settings["language"] = language
+        self.save_settings()
+
+    def get_resolution(self) -> str:
+        """Returns the saved resolution setting (e.g., 'auto' or '1920x1080')."""
+        return self.settings.get("resolution", "auto")
+
+    def set_resolution(self, resolution: str):
+        """Updates the resolution setting and saves."""
+        self.settings["resolution"] = resolution
         self.save_settings()

@@ -43,5 +43,6 @@
         "3": "calendar",
         "4": "weather"
     },
-    "language": "en"
+    "language": "en",
+    "resolution": "auto"
 }

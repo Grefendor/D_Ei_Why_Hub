@@ -41,21 +41,43 @@ class ResolutionManager:
         self.update_screen_info()
         self._initialized = True
 
-    def update_screen_info(self):
+    def update_screen_info(self, resolution_setting: str = "auto"):
         """
         Updates the screen resolution information and recalculates the scale factor.
 
-        The scale factor is determined by the smaller of the width or height ratios
-        to ensure the UI fits within the screen bounds.
+        Args:
+            resolution_setting (str): The resolution setting ("auto" or "WxH").
         """
+        target_width = 1920
+        target_height = 1080
+        
+        # Parse resolution setting
+        if resolution_setting and resolution_setting.lower() != "auto":
+            try:
+                parts = resolution_setting.lower().split('x')
+                if len(parts) == 2:
+                    target_width = int(parts[0])
+                    target_height = int(parts[1])
+                    
+                    # Use these as the "current" dimensions for scaling purposes
+                    self.current_width = target_width
+                    self.current_height = target_height
+                    
+                    # Calculate scale factor
+                    width_ratio = self.current_width / self.base_width
+                    height_ratio = self.current_height / self.base_height
+                    self.scale_factor = min(width_ratio, height_ratio)
+                    return
+            except ValueError:
+                print(f"Invalid resolution setting: {resolution_setting}, falling back to auto.")
+
+        # Auto-detect
         screen = QApplication.primaryScreen()
         if screen:
             size = screen.size()
             self.current_width = size.width()
             self.current_height = size.height()
             
-            # Calculate scale factor based on width (usually safer for UI scaling)
-            # We can also take the smaller of the two ratios to ensure it fits
             width_ratio = self.current_width / self.base_width
             height_ratio = self.current_height / self.base_height
             

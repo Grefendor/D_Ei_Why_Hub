@@ -43,6 +43,10 @@ class HubWindow(QMainWindow):
         self.language_manager = LanguageManager(root_dir)
         self.language_manager.load_language(self.settings_manager.get_language())
         
+        # Apply Resolution Setting
+        resolution_setting = self.settings_manager.get_resolution()
+        self.res_manager.update_screen_info(resolution_setting)
+        
         self.app_registry = AppRegistry(os.path.join(root_dir, "apps"))
         self.widget_registry = WidgetRegistry(os.path.join(root_dir, "widgets"))
         
