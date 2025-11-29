@@ -32,7 +32,7 @@ This is your personal, customizable dashboard for managing your daily digital li
 
 ## Included Applications & Widgets
 
-We have a growing collection of apps and widgets. Check out their detailed documentation:
+I have a growing collection of apps and widgets. Check out their detailed documentation:
 
 *   [**Applications Documentation**](apps/README.md): Learn about the Pantry Manager, Task Board, and more.
 *   [**Widgets Documentation**](widgets/README.md): Details on the Clock, Weather, and Calendar widgets.
