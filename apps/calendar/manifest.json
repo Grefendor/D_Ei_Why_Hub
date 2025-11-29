@@ -1,0 +1,8 @@
+{
+    "name": {
+        "en": "Calendar",
+        "de": "Kalender"
+    },
+    "entry_point": "app:CalendarApp",
+    "id": "calendar"
+}

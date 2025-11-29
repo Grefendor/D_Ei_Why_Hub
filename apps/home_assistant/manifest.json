@@ -1,0 +1,8 @@
+{
+    "name": {
+        "en": "Home Assistant",
+        "de": "Home Assistant"
+    },
+    "entry_point": "app:HomeAssistantApp",
+    "id": "home_assistant"
+}

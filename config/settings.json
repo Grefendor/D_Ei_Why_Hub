@@ -1,0 +1,47 @@
+{
+    "enabled_apps": [
+        "task_board",
+        "home_assistant",
+        "calendar",
+        "pantry_manager"
+    ],
+    "app_order": [
+        "pantry_manager",
+        "calendar",
+        "task_board"
+    ],
+    "enabled_widgets": [
+        "clock",
+        "calendar",
+        "weather"
+    ],
+    "widget_order": [
+        "clock",
+        "calendar",
+        "weather"
+    ],
+    "app_positions": {
+        "task_board": {
+            "row": 0,
+            "col": 0
+        },
+        "home_assistant": {
+            "row": 0,
+            "col": 1
+        },
+        "calendar": {
+            "row": 1,
+            "col": 1
+        },
+        "pantry_manager": {
+            "row": 1,
+            "col": 2
+        }
+    },
+    "widget_positions": {
+        "0": "clock",
+        "3": "calendar",
+        "4": "weather"
+    },
+    "language": "en"
+}

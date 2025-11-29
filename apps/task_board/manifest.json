@@ -1,0 +1,8 @@
+{
+    "name": {
+        "en": "Task Board",
+        "de": "Aufgaben"
+    },
+    "entry_point": "app:TaskBoardApp",
+    "id": "task_board"
+}

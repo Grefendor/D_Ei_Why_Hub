@@ -1,0 +1,8 @@
+{
+    "name": {
+        "en": "Pantry Manager",
+        "de": "Vorratsmanager"
+    },
+    "entry_point": "ui_qt:LebensmittelManagerApp",
+    "id": "pantry_manager"
+}
