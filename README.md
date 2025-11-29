@@ -1,4 +1,4 @@
-# De_Ei-Why_Hub
+# D_Ei-Why_Hub
 (No Pun intended)
 Welcome to **The DEW-Hub**! 
 
