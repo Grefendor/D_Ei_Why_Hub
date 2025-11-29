@@ -1,29 +1,43 @@
 # Applications
 
-The Hub comes with several built-in applications designed to help you manage your daily life.
+The D_Ei_Why_Hub includes a suite of built-in applications designed to facilitate various aspects of daily management.
 
-## 📅 Calendar
-A simple calendar application to view dates.
-*(More features coming soon)*
+## Calendar
 
-## 🏠 Home Assistant
-A control panel for your Home Assistant instance.
-*   **Features**: Control lights, switches, and view sensor data.
-*   **Demo Mode**: Can be run in demo mode for testing without a live instance.
+A streamlined calendar application for date visualization.
 
-## 🥫 Pantry Manager
-Keep track of your food inventory and never let things expire again.
-*   **Inventory**: Add, edit, and remove items.
-*   **Expiration Tracking**: See what's expiring soon.
-*   **Shopping List**: Generate a shopping list based on low stock.
+*   **Date Navigation**: View current and future dates.
+*   **Event Integration**: (Planned) Future updates will include event management and synchronization capabilities.
 
-## ✅ Task Board
-A kanban-style task manager for your household.
-*   **Tasks**: Create, edit, and delete tasks.
-*   **Recurrence**: Set tasks to repeat daily, weekly, etc.
-*   **Assignees**: Assign tasks to specific people.
+## Home Assistant
 
-## 🖥️ The Hub
-The core dashboard that manages everything.
-*   **Launcher**: Launch all your apps from one place.
-*   **Settings**: Customize the layout and language.
+A dedicated control panel for interfacing with a Home Assistant instance.
+
+*   **Device Control**: Manage lights, switches, and other connected devices directly from the dashboard.
+*   **Sensor Monitoring**: View real-time data from configured sensors.
+*   **Demo Mode**: Includes a simulation mode for testing UI and functionality without a live Home Assistant connection.
+
+## Pantry Manager
+
+A comprehensive inventory management system for household food items.
+
+*   **Inventory Tracking**: Add, edit, and remove items with details such as quantity and category.
+*   **Expiration Management**: Automatically tracks expiration dates and highlights items nearing expiry.
+*   **Shopping List Generation**: Automatically generates shopping lists based on low stock levels or expired items.
+
+## Task Board
+
+A Kanban-style task management system for organizing household duties.
+
+*   **Task Management**: Create, edit, and delete tasks with ease.
+*   **Recurrence Logic**: Configure tasks to repeat on daily, weekly, or custom intervals.
+*   **Assignee System**: Assign specific tasks to individual household members for clear responsibility.
+*   **Status Tracking**: Move tasks between "To Do", "In Progress", and "Done" states.
+
+## The Hub
+
+The central dashboard application that orchestrates the user experience.
+
+*   **Application Launcher**: A unified interface to launch all installed applications.
+*   **Settings Management**: Configure global settings, including application layout and language preferences.
+*   **Widget Management**: Organize and position widgets within the top bar.

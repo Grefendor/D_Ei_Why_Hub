@@ -1,18 +1,25 @@
 # Widgets
 
-Widgets are small, persistent tools that live in the top bar of The Hub.
+Widgets are persistent, compact tools integrated into the top bar of the D_Ei_Why_Hub interface, providing at-a-glance information and quick access to essential functions.
 
-## 🕒 Clock
-Displays the current time and date.
-*   **Format**: 24-hour format with date.
+## Clock
 
-## ⛅ Weather
-Shows the current weather and forecast for your location.
-*   **Current**: Temperature and condition icon.
-*   **Forecast**: 3-day forecast view.
-*   **Location**: Configurable via `weather_config.json`.
+Provides a clear display of the current time and date.
 
-## 📅 Calendar Widget
-A mini calendar for the top bar.
-*   **Birthdays**: Shows upcoming birthdays.
-*   **Reminders**: Highlights days with events.
+*   **Time Format**: Displays time in a 24-hour format.
+*   **Date Display**: Shows the current date alongside the time.
+
+## Weather
+
+Delivers real-time weather updates and forecasts for a user-specified location.
+
+*   **Current Conditions**: Displays the current temperature and weather icon.
+*   **Forecast**: Provides a 3-day weather outlook.
+*   **Configuration**: Location settings are managed via the `weather_config.json` file.
+
+## Calendar Widget
+
+A compact calendar interface for tracking important dates.
+
+*   **Birthday Tracking**: Highlights upcoming birthdays.
+*   **Event Reminders**: Visual indicators for days with scheduled events or reminders.
