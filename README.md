@@ -118,3 +118,5 @@ This project utilizes the following third-party libraries:
 
 *   **PySide6**: Licensed under the **LGPLv3**.
 *   **Requests**: Licensed under the **Apache License 2.0**.
+*   **pycaw**: Licensed under the **MIT License**.
+*   **comtypes**: Licensed under the **MIT License**.

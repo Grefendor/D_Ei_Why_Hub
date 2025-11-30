@@ -1,5 +1,8 @@
 {
     "app_title": "The Hub",
+    "volume": "Volume",
+    "mute": "Mute",
+    "unmute": "Unmute",
     "home": "Home",
     "settings": "Settings",
     "apps_layout": "Apps Layout",

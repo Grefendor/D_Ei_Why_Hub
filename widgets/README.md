@@ -23,3 +23,11 @@ A compact calendar interface for tracking important dates.
 
 *   **Birthday Tracking**: Highlights upcoming birthdays.
 *   **Event Reminders**: Visual indicators for days with scheduled events or reminders.
+
+## Volume Control
+
+A system-integrated widget for managing audio output.
+
+*   **Cross-Platform**: Works on Windows, Linux, and macOS.
+*   **Controls**: Mute/Unmute toggle and a volume slider.
+*   **Dynamic**: Automatically updates to reflect external system volume changes.

@@ -1,5 +1,8 @@
 {
     "app_title": "Der Hub",
+    "volume": "Lautstärke",
+    "mute": "Stummschalten",
+    "unmute": "Lautschalten",
     "home": "Startseite",
     "settings": "Einstellungen",
     "apps_layout": "App-Layout",

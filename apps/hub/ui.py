@@ -177,6 +177,12 @@ class HubWindow(QMainWindow):
             self.top_bar.addSpacing(self.res_manager.scale(20))
         
         self.top_bar.addStretch()
+        
+        # Volume Control
+        from widgets.volume_control import VolumeControlWidget
+        self.volume_control = VolumeControlWidget(self.language_manager, self.res_manager)
+        self.top_bar.addWidget(self.volume_control)
+        
         self.top_bar.addWidget(self.home_btn)
         self.top_bar.addWidget(self.settings_btn)
 

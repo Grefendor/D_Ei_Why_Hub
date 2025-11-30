@@ -41,8 +41,8 @@
     "widget_positions": {
         "0": "calendar",
         "1": "clock",
-        "2": "weather"
+        "4": "weather"
     },
-    "language": "en",
+    "language": "de",
     "resolution": "auto"
 }
