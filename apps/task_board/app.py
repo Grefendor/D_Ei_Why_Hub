@@ -40,6 +40,9 @@ class TaskBoardApp(QWidget):
         """
         Builds the UI, including the header and the task list.
         """
+        # Set background to ensure previews are not white
+        self.setStyleSheet(f"background-color: transparent;")
+        
         layout = QVBoxLayout(self)
         layout.setSpacing(self.res_manager.scale(15))
         

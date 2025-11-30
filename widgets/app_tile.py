@@ -95,3 +95,29 @@ class AppTile(QPushButton):
     def on_click(self):
         self.launch_app.emit(self.app_id)
 
+    def update_preview(self, preview_pixmap):
+        """
+        Updates the preview image of the tile.
+
+        Args:
+            preview_pixmap (QPixmap): The new preview image.
+        """
+        if preview_pixmap:
+            width = self.width()
+            height = self.height()
+            margin = self.res_manager.scale(15)
+            
+            # Scale pixmap to fit inside the tile, leaving room for text
+            target_w = width - (margin * 2)
+            target_h = height - (margin * 2) - self.res_manager.scale(30) # Space for text
+            
+            scaled_pixmap = preview_pixmap.scaled(target_w, target_h, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            self.preview_label.setPixmap(scaled_pixmap)
+            self.preview_label.setStyleSheet("background: transparent; border: none;")
+        else:
+            # Revert to icon/placeholder if preview is removed (though unlikely in this flow)
+            self.preview_label.setText("📱") 
+            font_size = self.res_manager.scale(64)
+            self.preview_label.setStyleSheet(f"font-size: {font_size}px; background: transparent; border: none;")
+
+

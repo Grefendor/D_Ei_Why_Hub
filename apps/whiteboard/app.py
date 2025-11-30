@@ -66,6 +66,9 @@ class WhiteboardApp(QWidget):
         """
         Constructs the user interface elements.
         """
+        # Set background to ensure previews are not white
+        self.setStyleSheet(f"background-color: transparent;")
+        
         layout = QVBoxLayout(self)
         layout.setSpacing(self.res_manager.scale(10))
         

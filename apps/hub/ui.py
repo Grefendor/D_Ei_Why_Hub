@@ -105,7 +105,7 @@ class HubWindow(QMainWindow):
         self.dashboard_view = QWidget()
         self.dashboard_layout = QGridLayout(self.dashboard_view)
         self.dashboard_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.dashboard_layout.setSpacing(self.res_manager.scale(40))
+        self.dashboard_layout.setSpacing(self.res_manager.scale(20)) # Reduced from 40 to 20
         
         self.populate_dashboard()
         
@@ -273,9 +273,35 @@ class HubWindow(QMainWindow):
         """
         Switches the view back to the main dashboard.
         """
+        self.refresh_app_previews()
+        self.refresh_app_previews()
         self.stack.setCurrentWidget(self.dashboard_view)
         self.home_btn.hide()
         self.settings_btn.show()
+
+    def refresh_app_previews(self):
+        """
+        Refreshes the previews of all app tiles in the dashboard.
+        """
+        # Iterate through dashboard layout items
+        for i in range(self.dashboard_layout.count()):
+            item = self.dashboard_layout.itemAt(i)
+            widget = item.widget()
+            
+            if isinstance(widget, AppTile):
+                app_id = widget.app_id
+                app_instance = self.app_registry.get_app_instance(app_id, self.language_manager)
+                
+                if app_instance:
+                    # Ensure app has a size for grabbing
+                    if not app_instance.isVisible():
+                        preview_w = self.res_manager.scale(800)
+                        preview_h = self.res_manager.scale(600)
+                        app_instance.resize(preview_w, preview_h)
+                    
+                    # Grab new preview
+                    preview_pixmap = app_instance.grab()
+                    widget.update_preview(preview_pixmap)
 
     def open_settings(self):
         """

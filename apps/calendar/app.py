@@ -41,6 +41,9 @@ class CalendarApp(QWidget):
         """
         Builds the UI, including the calendar widget, event list, and buttons.
         """
+        # Set background to ensure previews are not white
+        self.setStyleSheet(f"background-color: transparent;")
+        
         layout = QHBoxLayout(self)
         layout.setSpacing(self.res_manager.scale(20))
         
