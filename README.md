@@ -8,6 +8,7 @@ The D_Ei_Why_Hub is a customizable, modular dashboard application designed for m
 *   **Top Bar**: A customizable area for persistent widgets such as Clock, Weather, and Calendar.
 *   **Dynamic Management**: The system automatically detects and integrates new applications and widgets placed in the respective directories.
 *   **Customizable Layout**: Users can rearrange applications and widgets via the Settings interface to suit their workflow.
+*   **Screensaver**: An integrated screensaver that cycles through images from a user-defined directory after a period of inactivity. (Digital Picture Frame)
 
 ## Getting Started
 

@@ -103,5 +103,12 @@
     "pen": "Stift",
     "eraser": "Radiergummi",
     "confirm_clear": "Tafel löschen",
-    "confirm_clear_msg": "Sind Sie sicher, dass Sie das Whiteboard löschen möchten?"
+    "confirm_clear_msg": "Sind Sie sicher, dass Sie das Whiteboard löschen möchten?",
+    "screensaver": "Bildschirmschoner",
+    "screensaver_enabled": "Bildschirmschoner aktivieren",
+    "screensaver_timeout": "Aktivierungszeit",
+    "screensaver_interval": "Anzeigedauer",
+    "screensaver_path": "Bildpfad",
+    "browse": "Durchsuchen",
+    "select_folder": "Ordner auswählen"
 }

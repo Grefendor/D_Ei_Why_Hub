@@ -22,6 +22,9 @@ This is the main UI for the Hub. It handles the dashboard, launching apps,
 and managing the top bar widget strip.
 """
 
+from src.core.screensaver_manager import ScreensaverManager
+from .screensaver_ui import ScreensaverWindow
+
 class HubWindow(QMainWindow):
     """
     The main window for the Hub.
@@ -49,6 +52,14 @@ class HubWindow(QMainWindow):
         
         self.app_registry = AppRegistry(os.path.join(root_dir, "apps"))
         self.widget_registry = WidgetRegistry(os.path.join(root_dir, "widgets"))
+        
+        # Screensaver
+        self.screensaver_manager = ScreensaverManager(self.settings_manager)
+        self.screensaver_window = ScreensaverWindow(self.settings_manager)
+        
+        self.screensaver_manager.activate_screensaver.connect(self.screensaver_window.start)
+        self.screensaver_manager.deactivate_screensaver.connect(self.screensaver_window.stop)
+        self.screensaver_window.activity_detected.connect(self.screensaver_manager.deactivate)
         
         # Apply Theme
         self.setStyleSheet(f"QMainWindow {{ background: {Theme.BACKGROUND_GRADIENT}; }}")
@@ -156,7 +167,7 @@ class HubWindow(QMainWindow):
         for i in range(5):
             if i in positions:
                 widget_id = positions[i]
-                widget_instance = self.widget_registry.get_widget_instance(widget_id, self.language_manager)
+                widget_instance = self.widget_registry.get_widget_instance(widget_id, self.language_manager, self.res_manager)
                 if widget_instance:
                     self.top_bar.addWidget(widget_instance)
                 else:
@@ -179,7 +190,7 @@ class HubWindow(QMainWindow):
         self.top_bar.addStretch()
         
         # Volume Control
-        from widgets.volume_control import VolumeControlWidget
+        from src.ui.volume_control import VolumeControlWidget
         self.volume_control = VolumeControlWidget(self.language_manager, self.res_manager)
         self.top_bar.addWidget(self.volume_control)
         

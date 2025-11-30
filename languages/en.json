@@ -103,5 +103,12 @@
     "pen": "Pen",
     "eraser": "Eraser",
     "confirm_clear": "Clear Board",
-    "confirm_clear_msg": "Are you sure you want to clear the whiteboard?"
+    "confirm_clear_msg": "Are you sure you want to clear the whiteboard?",
+    "screensaver": "Screensaver",
+    "screensaver_enabled": "Enable Screensaver",
+    "screensaver_timeout": "Activation Timeout",
+    "screensaver_interval": "Slide Duration",
+    "screensaver_path": "Image Path",
+    "browse": "Browse",
+    "select_folder": "Select Folder"
 }

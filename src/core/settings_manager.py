@@ -30,7 +30,13 @@ class SettingsManager:
         "enabled_widgets": [],
         "widget_order": [],
         "widget_positions": {}, # {index: "widget_id"}
-        "resolution": "auto" # "auto" or "WxH" (e.g., "1920x1080")
+        "resolution": "auto", # "auto" or "WxH" (e.g., "1920x1080")
+        "screensaver": {
+            "enabled": False,
+            "timeout": 5, # minutes
+            "slide_duration": 10, # seconds
+            "image_path": "data/screensaver_images"
+        }
     }
 
     def __init__(self, settings_dir: str = "."):
@@ -167,4 +173,13 @@ class SettingsManager:
     def set_resolution(self, resolution: str):
         """Updates the resolution setting and saves."""
         self.settings["resolution"] = resolution
+        self.save_settings()
+
+    def get_screensaver_settings(self) -> Dict[str, Any]:
+        """Returns the screensaver settings."""
+        return self.settings.get("screensaver", self.DEFAULT_SETTINGS["screensaver"])
+
+    def set_screensaver_settings(self, settings: Dict[str, Any]):
+        """Updates the screensaver settings and saves."""
+        self.settings["screensaver"] = settings
         self.save_settings()

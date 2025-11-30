@@ -76,13 +76,14 @@ class WidgetRegistry:
         """
         return [{"id": k, "name": v["name"]} for k, v in self.widgets.items()]
 
-    def get_widget_instance(self, widget_id: str, language_manager=None) -> Optional[Any]:
+    def get_widget_instance(self, widget_id: str, language_manager=None, res_manager=None) -> Optional[Any]:
         """
         Creates a new instance of the specified widget.
 
         Args:
             widget_id (str): The unique identifier of the widget.
             language_manager (LanguageManager, optional): Passed to widget constructor if accepted.
+            res_manager (ResolutionManager, optional): Passed to widget constructor if accepted.
 
         Returns:
             Optional[Any]: A new instance of the widget class, or None if instantiation fails.
@@ -93,13 +94,23 @@ class WidgetRegistry:
         widget_data = self.widgets[widget_id]
         # Always create a new instance because the UI might have deleted the previous one
         try:
+            # Try with both managers
+            if language_manager and res_manager:
+                try:
+                    return widget_data["class"](language_manager=language_manager, res_manager=res_manager)
+                except TypeError:
+                    pass # Fallback
+
+            # Try with just language_manager
             if language_manager:
                 try:
                     return widget_data["class"](language_manager=language_manager)
                 except TypeError:
-                    return widget_data["class"]()
-            else:
-                return widget_data["class"]()
+                    pass # Fallback
+            
+            # Try with no args
+            return widget_data["class"]()
+
         except Exception as e:
             print(f"Error instantiating widget {widget_id}: {e}")
             return None

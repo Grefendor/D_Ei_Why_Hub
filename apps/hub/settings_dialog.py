@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, 
-                             QPushButton, QTabWidget, QWidget, QLabel, QCheckBox, QGridLayout, QFrame, QComboBox, QSpinBox)
+                             QPushButton, QTabWidget, QWidget, QLabel, QCheckBox, QGridLayout, QFrame, QComboBox, QSpinBox, QLineEdit, QFileDialog)
 from PySide6.QtCore import Qt, QMimeData, Signal, Signal
 
 # ... (imports)
@@ -526,6 +526,57 @@ class SettingsDialog(QDialog):
         
         self.tabs.addTab(self.general_tab, self.language_manager.translate("general"))
 
+        # Screensaver Tab
+        self.screensaver_tab = QWidget()
+        ss_layout = QVBoxLayout(self.screensaver_tab)
+        
+        # Enable Checkbox
+        self.ss_enabled = QCheckBox(self.language_manager.translate("screensaver_enabled"))
+        ss_layout.addWidget(self.ss_enabled)
+        
+        # Timeout
+        timeout_layout = QHBoxLayout()
+        timeout_layout.addWidget(QLabel(self.language_manager.translate("screensaver_timeout")))
+        self.ss_timeout = QSpinBox()
+        self.ss_timeout.setRange(1, 120) # 1 to 120 minutes
+        self.ss_timeout.setSuffix(" min")
+        timeout_layout.addWidget(self.ss_timeout)
+        timeout_layout.addStretch()
+        ss_layout.addLayout(timeout_layout)
+        
+        # Slide Duration
+        duration_layout = QHBoxLayout()
+        duration_layout.addWidget(QLabel(self.language_manager.translate("screensaver_interval")))
+        self.ss_duration = QSpinBox()
+        self.ss_duration.setRange(1, 300) # 1 to 300 seconds
+        self.ss_duration.setSuffix(" sec")
+        duration_layout.addWidget(self.ss_duration)
+        duration_layout.addStretch()
+        ss_layout.addLayout(duration_layout)
+        
+        # Image Path
+        path_layout = QHBoxLayout()
+        path_layout.addWidget(QLabel(self.language_manager.translate("screensaver_path")))
+        self.ss_path = QLineEdit()
+        self.ss_path.setReadOnly(True)
+        path_layout.addWidget(self.ss_path)
+        
+        browse_btn = QPushButton(self.language_manager.translate("browse"))
+        browse_btn.clicked.connect(self.browse_screensaver_path)
+        path_layout.addWidget(browse_btn)
+        ss_layout.addLayout(path_layout)
+        
+        ss_layout.addStretch()
+        
+        # Load Screensaver Settings
+        ss_settings = self.settings_manager.get_screensaver_settings()
+        self.ss_enabled.setChecked(ss_settings.get("enabled", False))
+        self.ss_timeout.setValue(ss_settings.get("timeout", 5))
+        self.ss_duration.setValue(ss_settings.get("slide_duration", 10))
+        self.ss_path.setText(ss_settings.get("image_path", "data/screensaver_images"))
+        
+        self.tabs.addTab(self.screensaver_tab, self.language_manager.translate("screensaver"))
+
         # Apps Tab (Grid Editor)
         self.grid_editor = GridEditorWidget(self.app_registry, self.settings_manager, self.language_manager)
         self.tabs.addTab(self.grid_editor, self.language_manager.translate("apps_layout"))
@@ -577,6 +628,18 @@ class SettingsDialog(QDialog):
             QMessageBox.information(self, self.language_manager.translate("info"), 
                                   self.language_manager.translate("restart_required"))
 
+            QMessageBox.information(self, self.language_manager.translate("info"), 
+                                  self.language_manager.translate("restart_required"))
+
+        # Screensaver
+        ss_settings = {
+            "enabled": self.ss_enabled.isChecked(),
+            "timeout": self.ss_timeout.value(),
+            "slide_duration": self.ss_duration.value(),
+            "image_path": self.ss_path.text()
+        }
+        self.settings_manager.set_screensaver_settings(ss_settings)
+
         # Apps
         positions = self.grid_editor.get_positions()
         self.settings_manager.set_app_positions(positions)
@@ -624,6 +687,13 @@ class SettingsDialog(QDialog):
                                           self.language_manager.translate("data_reset_success"))
                     self.data_reset.emit()
                     # Optional: Close app or restart? For now just notify.
+
+    def browse_screensaver_path(self):
+        """Opens a directory picker for screensaver images."""
+        directory = QFileDialog.getExistingDirectory(self, self.language_manager.translate("select_folder"), 
+                                                   self.ss_path.text())
+        if directory:
+            self.ss_path.setText(directory)
 
     def toggle_custom_resolution(self, text):
         """Shows or hides custom resolution inputs based on selection."""

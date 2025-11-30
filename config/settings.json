@@ -1,36 +1,19 @@
 {
+    "language": "en",
     "enabled_apps": [
-        "whiteboard",
+        "home_assistant",
         "pantry_manager",
-        "calendar",
         "task_board",
-        "home_assistant"
+        "whiteboard",
+        "calendar"
     ],
-    "app_order": [
-        "pantry_manager",
-        "calendar",
-        "task_board"
-    ],
-    "enabled_widgets": [
-        "calendar",
-        "clock",
-        "weather"
-    ],
-    "widget_order": [
-        "calendar",
-        "clock",
-        "weather"
-    ],
+    "app_order": [],
     "app_positions": {
-        "whiteboard": {
-            "row": 0,
-            "col": 0
-        },
-        "pantry_manager": {
+        "home_assistant": {
             "row": 0,
             "col": 1
         },
-        "calendar": {
+        "pantry_manager": {
             "row": 0,
             "col": 2
         },
@@ -38,16 +21,38 @@
             "row": 1,
             "col": 0
         },
-        "home_assistant": {
+        "whiteboard": {
             "row": 1,
             "col": 1
+        },
+        "calendar": {
+            "row": 2,
+            "col": 2
         }
     },
+    "enabled_widgets": [
+        "calendar",
+        "clock",
+        "volume_control",
+        "weather"
+    ],
+    "widget_order": [
+        "calendar",
+        "clock",
+        "volume_control",
+        "weather"
+    ],
     "widget_positions": {
         "0": "calendar",
         "1": "clock",
-        "2": "weather"
+        "2": "volume_control",
+        "3": "weather"
     },
-    "language": "de",
-    "resolution": "auto"
+    "resolution": "auto",
+    "screensaver": {
+        "enabled": true,
+        "timeout": 5,
+        "slide_duration": 10,
+        "image_path": "data/screensaver_images"
+    }
 }
