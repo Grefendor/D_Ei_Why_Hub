@@ -1,5 +1,6 @@
 {
     "enabled_apps": [
+        "whiteboard",
         "pantry_manager",
         "task_board",
         "home_assistant",
@@ -21,6 +22,10 @@
         "weather"
     ],
     "app_positions": {
+        "whiteboard": {
+            "row": 0,
+            "col": 0
+        },
         "pantry_manager": {
             "row": 0,
             "col": 1

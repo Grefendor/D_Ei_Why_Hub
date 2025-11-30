@@ -1,0 +1,5 @@
+{
+  "name": "Whiteboard",
+  "id": "whiteboard",
+  "entry_point": "app:WhiteboardApp"
+}

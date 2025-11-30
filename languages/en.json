@@ -97,5 +97,11 @@
     "width": "Width",
     "height": "Height",
     "restart_required": "Restart required for changes to take effect.",
-    "info": "Info"
+    "info": "Info",
+    "whiteboard": "Whiteboard",
+    "clear_board": "Clear Board",
+    "pen": "Pen",
+    "eraser": "Eraser",
+    "confirm_clear": "Clear Board",
+    "confirm_clear_msg": "Are you sure you want to clear the whiteboard?"
 }

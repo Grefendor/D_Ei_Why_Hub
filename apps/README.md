@@ -41,3 +41,12 @@ The central dashboard application that orchestrates the user experience.
 *   **Application Launcher**: A unified interface to launch all installed applications.
 *   **Settings Management**: Configure global settings, including application layout and language preferences.
 *   **Widget Management**: Organize and position widgets within the top bar.
+
+## Whiteboard
+
+A digital whiteboard for quick notes and sketches.
+
+*   **Freehand Drawing**: Draw with a mouse or touchscreen using the Pen tool.
+*   **Eraser**: Easily correct mistakes or remove parts of your drawing.
+*   **Clear Board**: Quickly wipe the entire board clean to start fresh.
+
