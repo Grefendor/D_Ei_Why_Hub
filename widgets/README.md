@@ -31,3 +31,12 @@ A system-integrated widget for managing audio output.
 *   **Cross-Platform**: Works on Windows, Linux, and macOS.
 *   **Controls**: Mute/Unmute toggle and a volume slider.
 *   **Dynamic**: Automatically updates to reflect external system volume changes.
+
+## Timer Widget
+
+A versatile tool offering three independent countdown timers for multitasking.
+
+*   **Multi-Timer**: Supports running up to three separate timers simultaneously.
+*   **Visual Alerts**: Timers flash red upon completion to provide a clear visual cue.
+*   **Quick Controls**: Easy-to-use interface for setting, pausing, and resetting timers.
+

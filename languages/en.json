@@ -110,5 +110,14 @@
     "screensaver_interval": "Slide Duration",
     "screensaver_path": "Image Path",
     "browse": "Browse",
-    "select_folder": "Select Folder"
+    "select_folder": "Select Folder",
+    "timer": "Timer",
+    "set_timer": "Set Timer",
+    "start": "Start",
+    "stop": "Stop",
+    "reset": "Reset",
+    "ok": "OK",
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
 }

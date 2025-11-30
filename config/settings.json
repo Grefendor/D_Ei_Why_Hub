@@ -32,16 +32,19 @@
     },
     "enabled_widgets": [
         "calendar",
+        "timer",
         "clock",
         "weather"
     ],
     "widget_order": [
         "calendar",
+        "timer",
         "clock",
         "weather"
     ],
     "widget_positions": {
         "0": "calendar",
+        "1": "timer",
         "2": "clock",
         "4": "weather"
     },

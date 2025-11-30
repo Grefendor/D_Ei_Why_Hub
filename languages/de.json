@@ -110,5 +110,14 @@
     "screensaver_interval": "Anzeigedauer",
     "screensaver_path": "Bildpfad",
     "browse": "Durchsuchen",
-    "select_folder": "Ordner auswählen"
+    "select_folder": "Ordner auswählen",
+    "timer": "Timer",
+    "set_timer": "Timer stellen",
+    "start": "Start",
+    "stop": "Stopp",
+    "reset": "Zurücksetzen",
+    "ok": "OK",
+    "hours": "Std",
+    "minutes": "Min",
+    "seconds": "Sek"
 }
