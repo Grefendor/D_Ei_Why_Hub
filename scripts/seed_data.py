@@ -1,10 +1,16 @@
 import sqlite3
 import os
+import sys
 from datetime import datetime, timedelta
 
-TASK_DB_PATH = os.path.join("data", "tasks.db")
-PANTRY_DB_PATH = os.path.join("data", "lebensmittel.db")
-CALENDAR_DB_PATH = os.path.join("data", "events.db")
+# Ensure we can import from src
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.core.paths import get_db_path, get_config_path
+
+TASK_DB_PATH = get_db_path("tasks.db")
+PANTRY_DB_PATH = get_db_path("lebensmittel.db")
+CALENDAR_DB_PATH = get_db_path("events.db")
 
 def seed_task_board():
     print(f"Seeding Task Board at {TASK_DB_PATH}...")
@@ -211,7 +217,7 @@ def seed_calendar():
     conn.close()
 
 def seed_weather():
-    config_path = os.path.join("config", "weather_config.json")
+    config_path = get_config_path("weather_config.json")
     print(f"Seeding Weather Config at {config_path}...")
     
     os.makedirs(os.path.dirname(config_path), exist_ok=True)
@@ -230,7 +236,7 @@ def seed_weather():
     print("Weather config seeded for New York.")
 
 def seed_whiteboard():
-    whiteboard_path = os.path.join("data", "whiteboard.png")
+    whiteboard_path = get_db_path("whiteboard.png")
     if os.path.exists(whiteboard_path):
         print(f"Removing existing whiteboard data at {whiteboard_path}...")
         os.remove(whiteboard_path)

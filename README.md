@@ -121,3 +121,19 @@ This project utilizes the following third-party libraries:
 *   **Requests**: Licensed under the **Apache License 2.0**.
 *   **pycaw**: Licensed under the **MIT License**.
 *   **comtypes**: Licensed under the **MIT License**.
+*   **pytest**: Licensed under the **MIT License**.
+*   **pytest-qt**: Licensed under the **MIT License**.
+
+## Testing
+
+To run the comprehensive test suite, execute the following command:
+
+```bash
+python tests/run_tests.py
+```
+
+This will run all tests using `pytest` and report the results.
+
+### Requirements
+-   `pytest`
+-   `pytest-qt`

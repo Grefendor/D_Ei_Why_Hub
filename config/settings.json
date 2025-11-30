@@ -1,14 +1,18 @@
 {
     "language": "en",
     "enabled_apps": [
+        "calendar",
         "home_assistant",
         "pantry_manager",
         "task_board",
-        "whiteboard",
-        "calendar"
+        "whiteboard"
     ],
     "app_order": [],
     "app_positions": {
+        "calendar": {
+            "row": 0,
+            "col": 0
+        },
         "home_assistant": {
             "row": 0,
             "col": 1
@@ -24,29 +28,22 @@
         "whiteboard": {
             "row": 1,
             "col": 1
-        },
-        "calendar": {
-            "row": 2,
-            "col": 2
         }
     },
     "enabled_widgets": [
         "calendar",
         "clock",
-        "volume_control",
         "weather"
     ],
     "widget_order": [
         "calendar",
         "clock",
-        "volume_control",
         "weather"
     ],
     "widget_positions": {
         "0": "calendar",
-        "1": "clock",
-        "2": "volume_control",
-        "3": "weather"
+        "2": "clock",
+        "4": "weather"
     },
     "resolution": "auto",
     "screensaver": {

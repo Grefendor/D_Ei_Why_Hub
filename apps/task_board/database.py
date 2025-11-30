@@ -2,6 +2,8 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 
+from src.core.paths import get_db_path
+
 """
 Task Board Database Module.
 
@@ -9,8 +11,7 @@ This module handles all database interactions for the Task Board application.
 It manages the storage, retrieval, completion, and deletion of tasks using SQLite.
 """
 
-# Go up 3 levels from apps/task_board/database.py to root, then into data
-DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'tasks.db')
+DB_PATH = get_db_path('tasks.db')
 
 def init_db():
     """

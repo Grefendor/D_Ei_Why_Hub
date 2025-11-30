@@ -1,16 +1,15 @@
-import os
-import shutil
+from src.core.paths import get_db_path, get_config_path
 
 def reset_application_data():
     """
     Deletes all application data databases and configuration files to reset the app to a clean state.
     """
     files_to_delete = [
-        os.path.join("data", "tasks.db"),
-        os.path.join("data", "lebensmittel.db"),
-        os.path.join("data", "events.db"),
-        os.path.join("config", "weather_config.json"),
-        os.path.join("data", "whiteboard.png")
+        get_db_path("tasks.db"),
+        get_db_path("lebensmittel.db"),
+        get_db_path("events.db"),
+        get_config_path("weather_config.json"),
+        get_db_path("whiteboard.png")
     ]
     
     deleted_files = []

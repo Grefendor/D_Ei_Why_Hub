@@ -24,6 +24,8 @@ and managing the top bar widget strip.
 
 from src.core.screensaver_manager import ScreensaverManager
 from .screensaver_ui import ScreensaverWindow
+from .components.top_bar import TopBar
+from .components.dashboard import Dashboard
 
 class HubWindow(QMainWindow):
     """
@@ -39,19 +41,21 @@ class HubWindow(QMainWindow):
         
         self.res_manager = ResolutionManager()
         
+
+        
         # Initialize Core Systems
-        root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        config_dir = os.path.join(root_dir, "config")
-        self.settings_manager = SettingsManager(config_dir)
-        self.language_manager = LanguageManager(root_dir)
+        from src.core.paths import CONFIG_DIR, ROOT_DIR, APPS_DIR, WIDGETS_DIR
+        
+        self.settings_manager = SettingsManager(CONFIG_DIR)
+        self.language_manager = LanguageManager(ROOT_DIR)
         self.language_manager.load_language(self.settings_manager.get_language())
         
         # Apply Resolution Setting
         resolution_setting = self.settings_manager.get_resolution()
         self.res_manager.update_screen_info(resolution_setting)
         
-        self.app_registry = AppRegistry(os.path.join(root_dir, "apps"))
-        self.widget_registry = WidgetRegistry(os.path.join(root_dir, "widgets"))
+        self.app_registry = AppRegistry(APPS_DIR)
+        self.widget_registry = WidgetRegistry(WIDGETS_DIR)
         
         # Screensaver
         self.screensaver_manager = ScreensaverManager(self.settings_manager)
@@ -76,10 +80,8 @@ class HubWindow(QMainWindow):
     def update_texts(self, lang_code=None):
         """Updates UI texts based on current language."""
         self.setWindowTitle(self.language_manager.translate("app_title"))
-        if hasattr(self, 'home_btn'):
-            self.home_btn.setText(f"🏠 {self.language_manager.translate('home')}")
-        if hasattr(self, 'settings_btn'):
-            self.settings_btn.setText(f"⚙️ {self.language_manager.translate('settings')}")
+        if hasattr(self, 'top_bar'):
+            self.top_bar.update_texts()
 
     def setup_ui(self):
         """
@@ -102,25 +104,20 @@ class HubWindow(QMainWindow):
         main_layout.setContentsMargins(margin, margin, margin, margin)
         main_layout.setSpacing(self.res_manager.scale(20))
         
-        # Top Bar (Dynamic Widgets)
-        self.top_bar = QHBoxLayout()
-        self.populate_top_bar()
-        
-        main_layout.addLayout(self.top_bar)
+        # Top Bar
+        self.top_bar = TopBar(self.settings_manager, self.widget_registry, self.language_manager, self.res_manager)
+        self.top_bar.home_clicked.connect(self.show_dashboard)
+        self.top_bar.settings_clicked.connect(self.open_settings)
+        main_layout.addWidget(self.top_bar)
         
         # Content Area (Stacked Widget)
         self.stack = QStackedWidget()
         main_layout.addWidget(self.stack)
         
         # 1. Dashboard View
-        self.dashboard_view = QWidget()
-        self.dashboard_layout = QGridLayout(self.dashboard_view)
-        self.dashboard_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.dashboard_layout.setSpacing(self.res_manager.scale(20)) # Reduced from 40 to 20
-        
-        self.populate_dashboard()
-        
-        self.stack.addWidget(self.dashboard_view)
+        self.dashboard = Dashboard(self.settings_manager, self.app_registry, self.language_manager, self.res_manager)
+        self.dashboard.app_launched.connect(self.launch_app)
+        self.stack.addWidget(self.dashboard)
         
         # 2. App View Container
         self.app_container = QWidget()
@@ -128,129 +125,7 @@ class HubWindow(QMainWindow):
         self.app_layout.setContentsMargins(0, 0, 0, 0)
         self.stack.addWidget(self.app_container)
 
-    def populate_top_bar(self):
-        """
-        Fills the top bar with your widgets and buttons.
 
-        It grabs the enabled widgets from the registry and puts them in the 
-        strip. Also adds the Home and Settings buttons.
-        """
-        # Clear existing items
-        while self.top_bar.count():
-            item = self.top_bar.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-            elif item.spacerItem():
-                pass # Spacers are deleted when taken
-        
-        # Home Button (Always present, but hidden in dashboard)
-        self.home_btn = QPushButton(f"🏠 {self.language_manager.translate('home')}")
-        btn_width = self.res_manager.scale(140)
-        btn_height = self.res_manager.scale(60)
-        self.home_btn.setFixedSize(btn_width, btn_height)
-        self.home_btn.setStyleSheet(Theme.get_button_style(font_size=self.res_manager.scale(18)))
-        self.home_btn.clicked.connect(self.show_dashboard)
-        self.home_btn.hide()
-        
-        # Settings Button
-        self.settings_btn = QPushButton(f"⚙️ {self.language_manager.translate('settings')}")
-        self.settings_btn.setFixedSize(btn_width, btn_height)
-        self.settings_btn.setStyleSheet(Theme.get_button_style(font_size=self.res_manager.scale(18)))
-        self.settings_btn.clicked.connect(self.open_settings)
-
-        # Load Widgets
-        positions = self.settings_manager.get_widget_positions()
-        
-        # We have 5 slots in the editor. Let's respect that.
-        # We will add widgets or spacers for indices 0-4.
-        
-        for i in range(5):
-            if i in positions:
-                widget_id = positions[i]
-                widget_instance = self.widget_registry.get_widget_instance(widget_id, self.language_manager, self.res_manager)
-                if widget_instance:
-                    self.top_bar.addWidget(widget_instance)
-                else:
-                    # Widget failed to load, add spacer
-                    self.top_bar.addSpacing(self.res_manager.scale(150))
-            else:
-                # Empty slot
-                # Add a transparent widget or spacer to hold the space
-                # Using addSpacing might be invisible and collapse if not careful with stretch
-                # But QHBoxLayout with spacing should work if we don't add stretch elsewhere indiscriminately
-                # Let's add a fixed size spacer widget to be sure
-                spacer = QWidget()
-                spacer.setFixedSize(self.res_manager.scale(150), self.res_manager.scale(10)) # Height doesn't matter much
-                spacer.setStyleSheet("background: transparent;")
-                self.top_bar.addWidget(spacer)
-            
-            # Add spacing between slots
-            self.top_bar.addSpacing(self.res_manager.scale(20))
-        
-        self.top_bar.addStretch()
-        
-        # Volume Control
-        from src.ui.volume_control import VolumeControlWidget
-        self.volume_control = VolumeControlWidget(self.language_manager, self.res_manager)
-        self.top_bar.addWidget(self.volume_control)
-        
-        self.top_bar.addWidget(self.home_btn)
-        self.top_bar.addWidget(self.settings_btn)
-
-    def populate_dashboard(self):
-        """
-        Fills the dashboard with tiles for your apps.
-
-        It checks where you want your apps to be and creates the tiles for them.
-        """
-        # Clear existing
-        while self.dashboard_layout.count():
-            item = self.dashboard_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-
-        positions = self.settings_manager.get_app_positions()
-        
-        # If no positions, maybe default layout?
-        if not positions:
-            # Default layout logic (linear fill)
-            all_apps = self.app_registry.get_app_list(self.language_manager)
-            row = 0
-            col = 0
-            max_cols = 3
-            for app in all_apps:
-                positions[app["id"]] = {"row": row, "col": col}
-                col += 1
-                if col >= max_cols:
-                    col = 0
-                    row += 1
-            # Save default positions? Maybe not, let user decide.
-        
-        # We need to get app names again to ensure they are localized
-        all_apps_map = {app["id"]: app["name"] for app in self.app_registry.get_app_list(self.language_manager)}
-
-        for app_id, pos in positions.items():
-            app_name = all_apps_map.get(app_id)
-            if not app_name:
-                continue
-                
-            # Generate Preview
-            preview_pixmap = None
-            app_instance = self.app_registry.get_app_instance(app_id, self.language_manager)
-            if app_instance:
-                if not app_instance.isVisible():
-                    # Resize for preview generation based on resolution
-                    preview_w = self.res_manager.scale(800)
-                    preview_h = self.res_manager.scale(600)
-                    app_instance.resize(preview_w, preview_h)
-                preview_pixmap = app_instance.grab()
-            
-            tile = AppTile(app_id, app_name, preview_pixmap=preview_pixmap)
-            tile.launch_app.connect(self.launch_app)
-            
-            row = pos.get("row", 0)
-            col = pos.get("col", 0)
-            self.dashboard_layout.addWidget(tile, row, col)
 
     def launch_app(self, app_id):
         """
@@ -277,42 +152,18 @@ class HubWindow(QMainWindow):
             self.active_app.show() 
             
             self.stack.setCurrentWidget(self.app_container)
-            self.home_btn.show()
-            self.settings_btn.hide() # Hide settings in app view
+
+            self.top_bar.set_home_visible(True)
 
     def show_dashboard(self):
         """
         Switches the view back to the main dashboard.
         """
-        self.refresh_app_previews()
-        self.refresh_app_previews()
-        self.stack.setCurrentWidget(self.dashboard_view)
-        self.home_btn.hide()
-        self.settings_btn.show()
+        self.dashboard.refresh_previews()
+        self.stack.setCurrentWidget(self.dashboard)
+        self.top_bar.set_home_visible(False)
 
-    def refresh_app_previews(self):
-        """
-        Refreshes the previews of all app tiles in the dashboard.
-        """
-        # Iterate through dashboard layout items
-        for i in range(self.dashboard_layout.count()):
-            item = self.dashboard_layout.itemAt(i)
-            widget = item.widget()
-            
-            if isinstance(widget, AppTile):
-                app_id = widget.app_id
-                app_instance = self.app_registry.get_app_instance(app_id, self.language_manager)
-                
-                if app_instance:
-                    # Ensure app has a size for grabbing
-                    if not app_instance.isVisible():
-                        preview_w = self.res_manager.scale(800)
-                        preview_h = self.res_manager.scale(600)
-                        app_instance.resize(preview_w, preview_h)
-                    
-                    # Grab new preview
-                    preview_pixmap = app_instance.grab()
-                    widget.update_preview(preview_pixmap)
+
 
     def open_settings(self):
         """
@@ -321,9 +172,10 @@ class HubWindow(QMainWindow):
         dialog = SettingsDialog(self.settings_manager, self.app_registry, self.widget_registry, self.language_manager, self)
         dialog.data_reset.connect(self.on_data_reset)
         if dialog.exec():
+
             # Refresh UI
-            self.populate_top_bar()
-            self.populate_dashboard()
+            self.top_bar.populate()
+            self.dashboard.populate()
 
     def on_data_reset(self):
         """
@@ -355,11 +207,6 @@ class HubWindow(QMainWindow):
         # 3. Reload Weather Config (if it was deleted)
         # The weather widget might need to be re-initialized or told to reload.
         # Since widgets are in the top bar, we can iterate them.
-        for i in range(self.top_bar.count()):
-            item = self.top_bar.itemAt(i)
-            widget = item.widget()
-            if widget and hasattr(widget, "load_config"):
-                widget.load_config()
-            elif widget and hasattr(widget, "update_weather"):
-                widget.update_weather()
+        # This is now handled inside TopBar or we can just repopulate
+        self.top_bar.populate()
 
