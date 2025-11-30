@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
                              QLabel, QListWidget, QListWidgetItem, QDialog, 
-                             QLineEdit, QComboBox, QMessageBox, QFrame)
+                             QLineEdit, QComboBox, QMessageBox, QFrame,
+                             QCheckBox, QSpinBox)
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QFont
 
@@ -41,7 +42,8 @@ class TaskBoardApp(QWidget):
         Builds the UI, including the header and the task list.
         """
         # Set background to ensure previews are not white
-        self.setStyleSheet(f"background-color: transparent;")
+        self.setObjectName("TaskBoardApp")
+        self.setStyleSheet(f"#TaskBoardApp {{ background-color: transparent; }}")
         
         layout = QVBoxLayout(self)
         layout.setSpacing(self.res_manager.scale(15))
@@ -239,12 +241,23 @@ class TaskBoardApp(QWidget):
         self.refresh_tasks()
 
     def on_task_complete(self, task_id):
-        # Check if we need to ask "Who are you?"
-        # We need to know the task details first. 
-        # Since we don't have the task object here easily (only ID), let's fetch it or pass it.
-        # Actually, complete_task in DB handles logic, but we need UI for person selection if needed.
-        # For now, let's just show a dialog to select person if there are people.
+        # Fetch task details to check assignment
+        from .database import get_task
+        task = get_task(task_id)
         
+        if not task:
+            return
+
+        # Check if assigned to a specific single person
+        if task['assignment_type'] == 'specific':
+            # assignment_value is a comma-separated string of IDs
+            ids = str(task['assignment_value']).split(',')
+            if len(ids) == 1 and ids[0]:
+                # Single person, auto-complete
+                complete_task(task_id, int(ids[0]))
+                self.refresh_tasks()
+                return
+
         people = get_people()
         if not people:
             # No people defined, just complete it
@@ -259,7 +272,7 @@ class TaskBoardApp(QWidget):
             complete_task(task_id, person_id)
             self.refresh_tasks()
 
-    def open_add_task_dialog(self):
+    def open_add_task_dialog(self, checked=False):
         dialog = AddTaskDialog(self, task=None, language_manager=self.language_manager)
         if dialog.exec():
             self.refresh_tasks()
@@ -380,7 +393,7 @@ class TaskItemWidget(QFrame):
                 background-color: #FFB300;
             }}
         """)
-        edit_btn.clicked.connect(lambda: self.edit_callback(task))
+        edit_btn.clicked.connect(lambda _: self.edit_callback(task))
         btn_layout.addWidget(edit_btn)
 
         # Delete Button
@@ -401,7 +414,7 @@ class TaskItemWidget(QFrame):
                 background-color: #D32F2F;
             }}
         """)
-        delete_btn.clicked.connect(lambda: self.delete_callback(task['id']))
+        delete_btn.clicked.connect(lambda _: self.delete_callback(task['id']))
         btn_layout.addWidget(delete_btn)
 
         # Complete Button
@@ -423,7 +436,7 @@ class TaskItemWidget(QFrame):
                     background-color: #1976D2;
                 }}
             """)
-            done_btn.clicked.connect(lambda: self.complete_callback(task['id']))
+            done_btn.clicked.connect(lambda _: self.complete_callback(task['id']))
             btn_layout.addWidget(done_btn)
         
         layout.addLayout(btn_layout)

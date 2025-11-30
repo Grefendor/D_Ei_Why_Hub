@@ -229,11 +229,19 @@ def seed_weather():
         
     print("Weather config seeded for New York.")
 
+def seed_whiteboard():
+    whiteboard_path = os.path.join("data", "whiteboard.png")
+    if os.path.exists(whiteboard_path):
+        print(f"Removing existing whiteboard data at {whiteboard_path}...")
+        os.remove(whiteboard_path)
+    print("Whiteboard reset to empty.")
+
 def seed_data():
     seed_task_board()
     seed_pantry()
     seed_calendar()
     seed_weather()
+    seed_whiteboard()
     print("All databases seeded successfully.")
 
 if __name__ == "__main__":

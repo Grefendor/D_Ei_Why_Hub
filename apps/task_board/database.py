@@ -269,3 +269,11 @@ def delete_task(task_id):
     conn.commit()
     conn.close()
 
+def get_task(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute('SELECT * FROM tasks WHERE id = ?', (task_id,))
+    row = c.fetchone()
+    conn.close()
+    return dict(row) if row else None

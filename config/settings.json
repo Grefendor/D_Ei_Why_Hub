@@ -1,10 +1,10 @@
 {
     "enabled_apps": [
+        "whiteboard",
         "pantry_manager",
-        "task_board",
-        "home_assistant",
         "calendar",
-        "whiteboard"
+        "task_board",
+        "home_assistant"
     ],
     "app_order": [
         "pantry_manager",
@@ -22,9 +22,17 @@
         "weather"
     ],
     "app_positions": {
+        "whiteboard": {
+            "row": 0,
+            "col": 0
+        },
         "pantry_manager": {
             "row": 0,
             "col": 1
+        },
+        "calendar": {
+            "row": 0,
+            "col": 2
         },
         "task_board": {
             "row": 1,
@@ -33,20 +41,12 @@
         "home_assistant": {
             "row": 1,
             "col": 1
-        },
-        "calendar": {
-            "row": 1,
-            "col": 2
-        },
-        "whiteboard": {
-            "row": 2,
-            "col": 1
         }
     },
     "widget_positions": {
         "0": "calendar",
-        "2": "clock",
-        "4": "weather"
+        "1": "clock",
+        "2": "weather"
     },
     "language": "de",
     "resolution": "auto"

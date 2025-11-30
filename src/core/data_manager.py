@@ -9,7 +9,8 @@ def reset_application_data():
         os.path.join("data", "tasks.db"),
         os.path.join("data", "lebensmittel.db"),
         os.path.join("data", "events.db"),
-        os.path.join("config", "weather_config.json")
+        os.path.join("config", "weather_config.json"),
+        os.path.join("data", "whiteboard.png")
     ]
     
     deleted_files = []
